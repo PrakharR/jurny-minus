@@ -10,8 +10,8 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val app = { request: Request -> Response(OK).body("Hello, ${request.query("name")}!") }
-            val server = app.asServer(Undertow(9000)).start()
+            val app = { request: Request -> Response(OK).body("Hello, ${request.query("name")}!!!") }
+            val server = app.asServer(Undertow(8080)).start()
             println("Server started on port ${server.port()}")
         }
     }

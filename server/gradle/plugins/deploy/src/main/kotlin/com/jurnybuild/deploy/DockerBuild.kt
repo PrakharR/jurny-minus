@@ -1,4 +1,4 @@
-package com.jurnybuild.docker
+package com.jurnybuild.deploy
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
