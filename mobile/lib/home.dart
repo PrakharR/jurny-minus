@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -107,7 +108,7 @@ class TripListItem extends StatelessWidget {
       title: Text(title),
       subtitle: Text(description),
       onTap: () {
-        // TODO: Navigate to the trip page.
+        context.goNamed('trip', pathParameters: {'id': id});
       },
     );
   }
