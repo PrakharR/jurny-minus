@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +14,54 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO(prakharrathi): Navigate to the create trip page.
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              final TextEditingController titleController =
+                  TextEditingController();
+              final TextEditingController descriptionController =
+                  TextEditingController();
+
+              return AlertDialog(
+                title: Text('Create a new trip'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(labelText: 'Title'),
+                      maxLength: 100,
+                    ),
+                    TextField(
+                      controller: descriptionController,
+                      decoration: InputDecoration(labelText: 'Description'),
+                      maxLines: 4,
+                      keyboardType: TextInputType.multiline,
+                      inputFormatters: [LengthLimitingTextInputFormatter(1000)],
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      String title = titleController.text;
+                      String description = descriptionController.text;
+
+                      // TODO(prakharrathi): Perform create trip action.
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Create'),
+                  ),
+                ],
+              );
+            },
+          );
         },
         child: Icon(Icons.add),
       ),
