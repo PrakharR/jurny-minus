@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class TripPage extends StatefulWidget {
@@ -17,6 +19,13 @@ class TripPage extends StatefulWidget {
 class _TripPageState extends State<TripPage> {
   List<File> files = [];
   List<Map<String, IfdTag>> tags = [];
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+
+  static const CameraPosition _eastCoastParkPosition = CameraPosition(
+    target: LatLng(1.3039560, 103.9263730),
+    zoom: 15,
+  );
 
   Future<List<File>?> _pickImages() async {
     try {
@@ -45,18 +54,12 @@ class _TripPageState extends State<TripPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have selected these many images:'),
-            Text(
-              '${files.length}',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(tags.toString()),
-          ],
-        ),
+      body: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition: _eastCoastParkPosition,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _pickImages,
